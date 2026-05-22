@@ -32,6 +32,13 @@ library(forecast)
 
 # Methods
 
+The fertility data used in this investigation was collected by the Singapore 
+Department of Statistics (SDoS), and the Singapore Immigration and Checkpoints Authority (ICA) from 1960 to 2025. The data set consists of 
+
+It should be noted that the data prior to 1980 for the TFR pertains to the total population, while data from 1980 onwards pertains to the resident population of Singapore's citizens and permanent residents. Additionally, the measures of Resident Live-Births from 1980-1985 are estimated.  
+
+
+
 ```{r read_data, warning=FALSE, show_col_types = FALSE, include=FALSE}
 BirthsAndFertilityRatesAnnual <- 
   read_csv("C:/Users/ebony/OneDrive - University of Adelaide/Desktop/2026 Time Series/BirthsAndFertilityRatesAnnual (1).csv")
