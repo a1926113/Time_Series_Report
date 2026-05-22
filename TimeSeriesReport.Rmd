@@ -26,4 +26,42 @@ library(forecast)
 
 ### <https://github.com/a1926113/Time_Series_Report>
 
+# Abstract
 
+# Introduction
+
+# Methods
+
+```{r read_data, warning=FALSE, show_col_types = FALSE, include=FALSE}
+BirthsAndFertilityRatesAnnual <- 
+  read_csv("C:/Users/ebony/OneDrive - University of Adelaide/Desktop/2026 Time Series/BirthsAndFertilityRatesAnnual (1).csv")
+```
+
+```{r to_double, include=FALSE}
+BirthsAndFertilityRatesAnnual <- BirthsAndFertilityRatesAnnual |>
+  mutate(across(2:67, as.character)) |>
+  mutate(across(2:67, ~na_if(., "na"))) |>
+  mutate(across(2:67, as.double))
+```
+
+```{r pivot_longer,warning=FALSE, include=FALSE}
+
+BirthsAndFertilityRatesAnnual <- BirthsAndFertilityRatesAnnual |>
+  pivot_longer(cols = -DataSeries,
+               names_to = "Year",
+               values_to = "Value") |>
+  pivot_wider(names_from = DataSeries,
+              values_from = "Value")
+
+BirthsAndFertilityRatesAnnual$Year <-as.integer(BirthsAndFertilityRatesAnnual$"Year")
+
+BirthsAndFertilityRatesAnnual <- BirthsAndFertilityRatesAnnual[, -c(3:15, 17,18)]
+```
+
+# Results
+
+# Discussion
+
+# Conclusion
+
+# References
