@@ -1,0 +1,29 @@
+---
+title: "TITLE"
+author: "Ebony Hunt"
+date: "2026-05-22"
+output:
+  pdf_document: 
+    keep_tex: true
+  html_document: default
+header-includes:
+  \usepackage{placeins}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(tidyr)
+library(dplyr)
+library(tsibble)
+library(feasts)
+library(fable)
+library(ggplot2)
+library(forecast)
+```
+
+### GitHub Repository:
+
+### <https://github.com/a1926113/Time_Series_Report>
+
+
