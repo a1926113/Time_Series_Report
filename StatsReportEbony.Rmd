@@ -1,0 +1,88 @@
+---
+title: "Chicago Death Rate Predictors"
+author: "Ebony Hunt"
+date: "2026-03-12"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(AEDForecasting)
+library(lattice)
+library(tidyverse)
+library(gamair)
+library(mgcv)
+```
+
+# Aims
+
+-   To ascertain the most important influences for predicting the death rates in Chicago, and how effective they are in predicting death rates.
+
+-   Determine if air quality measures from 3 or 4 days beforehand predict the death rate better than those on the same day as the death rate.
+
+-   To investigate if there simpler methods of prediction than the current process that are just as effective
+
+# Background
+
+The dataset "chicago" from the R package "gamair" (Peng, and Welty, 2004), contains information about daily non-accidental death rates in Chicago alongside measures of air quality and temperature from 1987 to 2000. 
+
+
+# Findings
+
+
+# Discussion
+
+\newpage
+
+# Statistical Methods and Results
+
+## Computational Methods
+
+All analysis was completed using R version 4.4.1 "Race for Your Life".
+
+## Results
+
+```{r warning=FALSE}
+data("chicago")
+chicago <- as.tibble(chicago)
+head(chicago)
+
+ggplot(data = chicago, mapping = aes(x = time, y = death)) +
+  geom_point()
+
+#looks like there is a seasonal component
+
+
+ggplot(data = chicago, mapping = aes(x = tmpd, y = death)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(data = chicago, mapping = aes(x = pm10median, y = death)) +
+  geom_point() + 
+  geom_smooth()
+
+
+ggplot(data = chicago, mapping = aes(x = pm25median, y = death)) +
+  geom_point() + 
+  geom_smooth()
+
+ggplot(data = chicago, mapping = aes(x = pm25median, y = death)) +
+  geom_point() + 
+  geom_smooth()
+
+ggplot(data = chicago, mapping = aes(x = o3median, y = death)) +
+  geom_point() + 
+  geom_smooth()
+
+ggplot(data = chicago, mapping = aes(x = so2median, y = death)) +
+  geom_point() + 
+  geom_smooth()
+
+chicago
+?chicago
+summary(chicago)
+
+
+```
