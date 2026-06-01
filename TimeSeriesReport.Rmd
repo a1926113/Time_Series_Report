@@ -32,12 +32,9 @@ library(forecast)
 
 # Methods
 
-The fertility data used in this investigation was collected by the Singapore 
-Department of Statistics (SDoS), and the Singapore Immigration and Checkpoints Authority (ICA) from 1960 to 2025. The data set consists of 
+The fertility data used in this investigation was collected by the Singapore Department of Statistics (SDoS), and the Singapore Immigration and Checkpoints Authority (ICA) from 1960 to 2025. The data includes measures of Total Fertility Rate (TFR) which can be defined as
 
-It should be noted that the data prior to 1980 for the TFR pertains to the total population, while data from 1980 onwards pertains to the resident population of Singapore's citizens and permanent residents. Additionally, the measures of Resident Live-Births from 1980-1985 are estimated.  
-
-
+It should be noted that the data prior to 1980 for the TFR pertains to the total population, while data from 1980 onwards pertains to the resident population of Singapore's citizens and permanent residents. Additionally, the measures of Resident Live-Births from 1980-1985 are estimated (Department of Statistics Singapore).
 
 ```{r read_data, warning=FALSE, show_col_types = FALSE, include=FALSE}
 BirthsAndFertilityRatesAnnual <- 
@@ -65,6 +62,40 @@ BirthsAndFertilityRatesAnnual$Year <-as.integer(BirthsAndFertilityRatesAnnual$"Y
 BirthsAndFertilityRatesAnnual <- BirthsAndFertilityRatesAnnual[, -c(3:15, 17,18)]
 ```
 
+the data will need to be filtered to just include the dates from 1960-2012 for training. create into a tsibble and clean
+
+```{r clean, include = FALSE}
+
+BFR <- BirthsAndFertilityRatesAnnual[14:66, ]
+
+BFR  <-
+  as_tsibble(BFR,
+             index = Year) |>
+  rename(year = Year, TFR = "Total Fertility Rate (TFR)",
+         TLB = "Total Live-Births") 
+```
+
+create time plots 
+```{r time_plot_tfr, echo = FALSE, warning=FALSE, fig.cap = "Time plot of total fertility rate for Singapore per year from 1960-2012", out.width="50%", fig.align="center",fig.show='asis'}
+BFR |>
+  autoplot(TFR) +
+  labs(x = "Year",
+       y = "Total Fertility Rate", 
+       title = "Total Fertility Rate Per Year in Singapore")
+```
+looks like there is an obvious downward trend and looks like there might be a seasonal component
+
+now create a time plot for the tlb
+
+```{r time_plot_tlb, echo = FALSE, warning=FALSE, fig.cap="Time plot of total live births for Singapore per year from 1960-2012", out.width="50%", fig.align="center", fig.show='asis'}
+BFR |>
+  autoplot(TLB) +
+  labs(x = "Year",
+       y = "Total Live Births",
+       title = "Total Live Births Per Year in Singapore")
+```
+also an obvious trend. it also looks like the seasonal component is more pronounced
+
 # Results
 
 # Discussion
@@ -72,3 +103,7 @@ BirthsAndFertilityRatesAnnual <- BirthsAndFertilityRatesAnnual[, -c(3:15, 17,18)
 # Conclusion
 
 # References
+
+# Statistical Apendix
+
+(define terms do other models)
