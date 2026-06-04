@@ -187,6 +187,26 @@ acf(residuals(TFR.model4))
 pacf(residuals(TFR.model4))
 ```
 
+none of these worked very well so i will not try fitting some sarima models to the untransformed data
+```{r initialSarima}
+
+TFR.model.seasonal1 <- arima(BFR$TFR, order = c(1,0,1),
+                            seasonal = list(order = c(1,0,0),
+                                            period = 12))
+
+TFR.model.seasonal2 <- arima(BFR$TFR, order = c(1,1,0),
+                            seasonal = list(order = c(1,1,0),
+                                            period = 12))
+
+TFR.model.seasonal3 <- arima(BFR$TFR, order = c(0,1,1),
+                            seasonal = list(order = c(0,1,0),
+                                            period = 12))
+
+TFR.model.seasonal4 <- arima(BFR$TFR, order = c(0,1,0),
+                            seasonal = list(order = c(1,1,1),
+                                            period = 12))
+
+```
 
 
 # Results
