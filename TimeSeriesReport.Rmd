@@ -96,6 +96,87 @@ BFR |>
 ```
 also an obvious trend. it also looks like the seasonal component is more pronounced
 
+
+it appears there is a spike approximately every 12 years. this might have something to do with the chinese zodiac.
+
+one way to help with detrending the data could be to do a log transformation
+
+```{r log_trans_tfr_timeplot, echo = FALSE, warning=FALSE, fig.cap = "Time plot of the log-transformed fertility rate in Singapore from 1960-2012", out.width="50%", fig.align="center",fig.show='asis', warning=FALSE}
+
+logBFR <- BFR |>
+  mutate(TFR.log = log(TFR)) |>
+  mutate(TLB.log = log(TLB))
+
+logBFR |>
+  autoplot(TFR.log) +
+  labs(x = "Year",
+       y = "Total Log Transformed Fertility Rate", 
+       title = "Total Fertility Rate Per Year in Singapore")
+```
+
+same will be done for tlb
+```{r log_trans_tlb_timeplot, echo = FALSE, warning=FALSE, fig.cap = "Time plot of the log-transformed total live births in Singapore from 1960-2012", out.width="50%", fig.align="center",fig.show='asis', warning=FALSE}
+
+logBFR |>
+  autoplot(TLB.log) +
+  labs(x = "Year",
+       y = "Total Log Transformed Live Births", 
+       title = "Total Live Birth Rate Per Year in Singapore")
+```
+
+the data will now be differenced to try and detrend it
+
+
+```{r diff_log_tfr_timeplot, echo= FALSE, fig.cap = "Time plot of the log-transformed differenced fertility rate in Singapore from 1960-2012", out.width="50%", fig.align="center",fig.show='asis', warning=FALSE}
+
+difflogBFR <- logBFR |> mutate(D.TFR.log = 
+                         difference(TFR.log, lag = 1)) |>
+                        mutate(D.TLB.log =
+                         difference(TLB.log, lag =1))
+
+difflogBFR |> autoplot(D.TFR.log) +
+  labs(x = "Year",
+       y = "Total long Transformed Differenced Fertility Rate", 
+       title = "Total Fertility Rate Per Year in Singapore")
+```
+no obvious trend now but the seasonal component is more obvious
+
+```{r diff_log_tlb_timeplot, echo = FALSE, fig.cap = "Time plot of the log differenced Live Births in Singapore from 1960-2012", out.width="50%", fig.align="center",fig.show='asis',warning=FALSE}
+
+difflogBFR |> autoplot(D.TLB.log) +
+  labs(x = "Year",
+       y = "Total Log Differenced Live Births", 
+       title = "Total Differenced Live Births Per Year in Singapore")
+
+```
+
+they both look very similar and have a very similar seasonal component.
+
+a sarima model will be fit with season differencing at lag 12 for the original data and the log transformed data.
+
+
+```{r FirstModel}
+
+#firstly arima will be tried with the undifferenced and untransformed data just to get an idea of what the AICs will be
+TFR.model1 <- arima(BFR$TFR, order = c(1, 1, 0))
+
+AIC(TFR.model1)
+
+TFR.model2 <- arima(BFR$TFR, order = c(0, 1, 0))
+
+AIC(TFR.model2)
+
+TFR.model3 <- arima(BFR$TFR, order = c(1, 1, 1))
+
+AIC(TFR.model3)
+
+TFR.model4 <- arima(BFR$TFR, order = c(1, 0, 0))
+
+AIC(TFR.model4)
+```
+
+
+
 # Results
 
 # Discussion
