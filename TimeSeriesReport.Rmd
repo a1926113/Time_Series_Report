@@ -218,6 +218,38 @@ pacf(residuals(TFR.model.seasonal2))
 ```
 
 
+```{r FirstModel2}
+
+#firstly arima will be tried with the undifferenced and untransformed data just to get an idea of what the AICs will be
+TLB.model1 <- arima(BFR$TLB, order = c(1, 1, 0))
+
+AIC(TLB.model1)
+
+acf(residuals(TLB.model1))
+pacf(residuals(TLB.model1))
+
+TLB.model2 <- arima(BFR$TLB, order = c(0, 1, 0))
+
+AIC(TLB.model2)
+
+acf(residuals(TLB.model2))
+pacf(residuals(TLB.model2))
+
+TLB.model3 <- arima(BFR$TLB, order = c(1, 1, 1))
+
+AIC(TLB.model3)
+
+acf(residuals(TLB.model3))
+pacf(residuals(TLB.model3))
+
+TLB.model4 <- arima(BFR$TLB, order = c(1, 0, 0))
+
+AIC(TLB.model4)
+
+acf(residuals(TLB.model4))
+pacf(residuals(TLB.model4))
+```
+
 # Results
 
 # Discussion
