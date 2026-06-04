@@ -162,17 +162,29 @@ TFR.model1 <- arima(BFR$TFR, order = c(1, 1, 0))
 
 AIC(TFR.model1)
 
+acf(residuals(TFR.model1))
+pacf(residuals(TFR.model1))
+
 TFR.model2 <- arima(BFR$TFR, order = c(0, 1, 0))
 
 AIC(TFR.model2)
+
+acf(residuals(TFR.model2))
+pacf(residuals(TFR.model2))
 
 TFR.model3 <- arima(BFR$TFR, order = c(1, 1, 1))
 
 AIC(TFR.model3)
 
+acf(residuals(TFR.model3))
+pacf(residuals(TFR.model3))
+
 TFR.model4 <- arima(BFR$TFR, order = c(1, 0, 0))
 
 AIC(TFR.model4)
+
+acf(residuals(TFR.model4))
+pacf(residuals(TFR.model4))
 ```
 
 
