@@ -44,9 +44,40 @@ TLB
 
 #make them training
 
-T.TFR <- TFR[14:66, ]
+T.TFR <- TFR[1:52, ]
 
-T.TLB <- TLB[14:66, ]
+T.TLB <- TLB[1:52, ]
 
 
+#first plot the data
+
+autoplot(T.TFR)
+#looks like there is a nonlinear decreasing trend with a potential seasonal
+#component
+
+autoplot(T.TLB)
+#looks like there is a nonlinear decreasing trend with a potential seasonal
+#component
+
+
+#will try to plot these with a log transform to try and linearise the trends
+autoplot(log(T.TFR))
+#had an effect on linearising the data
+autoplot(log(T.TLB))
+#does not look like it effectively linearised the data
+
+#we will now difference the data to try and detrend it
+
+T.diffTFR <- T.TFR |> mutate(D.TFR = difference(TFR, lag = 1))
+
+T.diffTFR|> autoplot(D.TFR)
+
+T.diffTLB <- T.TLB |> mutate(D.TLB = difference(TLB, lag = 1))
+
+T.diffTLB|> autoplot(D.TLB)
+#these look more stationary now 
+
+
+#first we will try to fit a model to the TFR data
+#we will look at the acf and pacf plots
 
