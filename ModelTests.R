@@ -103,6 +103,14 @@ pacf(TFR.arima2$resid, lag.max = 45)
 #this is probably due to a seasonal component in the data. a sarima model 
 #will now be fit
 
+TFR.arima3 <- arima(T.TFR$TFR, order=c(8,1,15))
+
+acf(TFR.arima3$resid, lag.max = 45)
+pacf(TFR.arima3$resid, lag.max = 45)
+#also white noise residuals
+summary(TFR.arima2)
+summary(TFR.arima3)
+
 
 T.SdiffTFR <- T.TFR |> mutate(SD.TFR = difference(TFR, lag = 12))
 
@@ -206,12 +214,25 @@ pacf(logTFR.arima3$resid, lag.max = 45)
 summary(logTFR.arima3)
 #white noise residuals
 
-#i did tr
+#i will try sarima
+
+T.SdifflogTFR <- T.logTFR |> mutate(SD.logTFR = difference(TFR, lag = 12))
+
+acf(na.omit(T.SdifflogTFR$SD.logTFR), lag.max = 40)
+pacf(na.omit(T.SdifflogTFR$SD.logTFR), lag.max = 40)
+
+#We will try seasonal ARIMA(0, 1, 0)(0, 1, 0)_12 first
+
+logTFR.sarima1 <- arima(T.logTFR$TFR,order=c(0,1,0),
+                     season=list(order=c(0,1,0),period=12))
+acf(logTFR.sarima1$resid, lag.max = 45)
+pacf(logTFR.sarima1$resid, lag.max = 45)
+#these plots are the same as the untransformed ones
 
 
-
-
-
+#i will decide that the untransformed is better for simplicity. and then i will
+#forecast using the data and whichever behaves better will be the one i use 
+#and it will be one arima one sarima
 
 
 #List of white noise residuals:
