@@ -95,6 +95,7 @@ TFR.arima2 <- arima(TFR$TFR, order=c(13,1,15))
 acf(TFR.arima2$resid, lag.max = 45)
 pacf(TFR.arima2$resid, lag.max = 45)
 #the pacf and acf shows white noise residuals
+#this is bad though because of the principle of parsimony
 
 #this is probably due to a seasonal component in the data. a sarima model 
 #will now be fit
@@ -123,3 +124,64 @@ acf(TFR.sarima2$resid, lag.max = 45)
 pacf(TFR.sarima2$resid, lag.max = 45)
 #this shows the last significant lag in the pacf at 5 so we will try that
 
+TFR.sarima3 <- arima(TFR$TFR,order=c(0,1,5),
+                     season=list(order=c(1,1,0),period=12))
+acf(TFR.sarima3$resid, lag.max = 45)
+pacf(TFR.sarima3$resid, lag.max = 45)
+#there is a lag at 16 in pacf so we will try
+
+
+TFR.sarima4 <- arima(TFR$TFR,order=c(0,1,8),
+                     season=list(order=c(1,1,0),period=12))
+acf(TFR.sarima4$resid, lag.max = 45)
+pacf(TFR.sarima4$resid, lag.max = 45)
+#this has white noise residuals
+#q value is still to high probably
+
+#will try it with a moving average component
+TFR.sarima5 <- arima(TFR$TFR,order=c(1,1,0),
+                     season=list(order=c(1,1,0),period=12))
+acf(TFR.sarima5$resid, lag.max = 45)
+pacf(TFR.sarima5$resid, lag.max = 45)
+#the pacf has residuals up to 15
+
+TFR.sarima6 <- arima(TFR$TFR,order=c(0,1,15),
+                     season=list(order=c(0,1,0),period=12))
+acf(TFR.sarima6$resid, lag.max = 45)
+pacf(TFR.sarima6$resid, lag.max = 45)
+#this has white noise residuals
+
+TFR.sarima7 <- arima(TFR$TFR,order=c(0,1,8),
+                     season=list(order=c(0,1,1),period=12))
+acf(TFR.sarima7$resid, lag.max = 45)
+pacf(TFR.sarima7$resid, lag.max = 45)
+#this has white noise residuals
+
+TFR.sarima8 <- arima(TFR$TFR,order=c(0,1,1),
+                     season=list(order=c(0,1,2),period=12))
+acf(TFR.sarima8$resid, lag.max = 45)
+pacf(TFR.sarima8$resid, lag.max = 45)
+#this is white noise residuals
+summary(TFR.sarima8)
+
+TFR.sarima9 <- arima(TFR$TFR,order=c(0,1,8),
+                     season=list(order=c(2,1,0),period=12))
+acf(TFR.sarima9$resid, lag.max = 45)
+pacf(TFR.sarima9$resid, lag.max = 45)
+
+
+
+#i will now try fitting for log
+
+#i did tr
+
+
+
+
+
+
+
+#List of white noise residuals:
+#tfr.arima2, tfr.sarima4, tfr.sarima6 tfr.sarima7
+
+#i did trials with other 
