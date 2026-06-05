@@ -70,6 +70,8 @@ autoplot(log(T.TLB))
 
 T.diffTFR <- T.TFR |> mutate(D.TFR = difference(TFR, lag = 1))
 
+T.diffTFR
+
 T.diffTFR|> autoplot(D.TFR)
 
 T.diffTLB <- T.TLB |> mutate(D.TLB = difference(TLB, lag = 1))
@@ -77,7 +79,22 @@ T.diffTLB <- T.TLB |> mutate(D.TLB = difference(TLB, lag = 1))
 T.diffTLB|> autoplot(D.TLB)
 #these look more stationary now 
 
+acf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+pacf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+#the pacf shows the last spike at lag 13
+#so we can try fitting an ARIMA(13,1,0) 
 
-#first we will try to fit a model to the TFR data
-#we will look at the acf and pacf plots
+TFR.arima1 <- arima(TFR$TFR, order=c(13,1,0))
+
+acf(TFR.arima1$resid, lag.max = 45)
+pacf(TFR.arima1$resid, lag.max = 45)
+
+#there is a significant lag at 15 in the pacf try adding a ma component
+TFR.arima2 <- arima(TFR$TFR, order=c(13,1,15))
+
+acf(TFR.arima2$resid, lag.max = 45)
+pacf(TFR.arima2$resid, lag.max = 45)
+#the pacf shows white noise residuals, but acf shows a big spike at lag 1
+
+
 
