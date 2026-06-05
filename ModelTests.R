@@ -170,8 +170,16 @@ acf(TFR.sarima9$resid, lag.max = 45)
 pacf(TFR.sarima9$resid, lag.max = 45)
 
 
+#i will now try fitting an arima for the log transformed TFR data
+T.logTFR <- T.TFR |> mutate(logTFR = TFR)
 
-#i will now try fitting for log
+
+#i will create the acf and pacf plots for the differenced log data
+
+acf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+pacf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+
+
 
 #i did tr
 
