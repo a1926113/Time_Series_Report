@@ -94,7 +94,24 @@ TFR.arima2 <- arima(TFR$TFR, order=c(13,1,15))
 
 acf(TFR.arima2$resid, lag.max = 45)
 pacf(TFR.arima2$resid, lag.max = 45)
-#the pacf shows white noise residuals, but acf shows a big spike at lag 1
+#the pacf shows white noise residuals, but acf still shows a big spike at lag 1
+
+#this is probably due to a seasonal component in the data. a sarima model 
+#will now be fit
 
 
+T.SdiffTFR <- T.TFR |> mutate(SD.TFR = difference(TFR, lag = 12))
+
+acf(na.omit(T.SdiffTFR$SD.TFR), lag.max = 40)
+pacf(na.omit(T.SdiffTFR$SD.TFR), lag.max = 40)
+#the acf shows significance to lag 7
+#the pacf shows signifiacne for lag 1
+
+#We will try seasonal ARIMA(0, 0, 0)(1, 1, 0)_12 first
+
+TFR.sarima1 <- arima(TFR$TFR,order=c(0,0,0),
+                     season=list(order=c(1,1,0),period=12))
+acf(TFR.sarima1$resid, lag.max = 45)
+pacf(TFR.sarima1$resid, lag.max = 45)
+#this is still not good, we will try it using the values from arima2
 
