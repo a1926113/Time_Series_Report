@@ -84,18 +84,21 @@ pacf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
 #the pacf shows the last spike at lag 13
 #so we can try fitting an ARIMA(13,1,0) 
 
-TFR.arima1 <- arima(TFR$TFR, order=c(13,1,0))
+TFR.arima1 <- arima(T.TFR$TFR, order=c(13,1,0))
 
 acf(TFR.arima1$resid, lag.max = 45)
 pacf(TFR.arima1$resid, lag.max = 45)
 
 #there is a significant lag at 15 in the pacf try adding a ma component
-TFR.arima2 <- arima(TFR$TFR, order=c(13,1,15))
+TFR.arima2 <- arima(T.TFR$TFR, order=c(13,1,15))
 
 acf(TFR.arima2$resid, lag.max = 45)
 pacf(TFR.arima2$resid, lag.max = 45)
 #the pacf and acf shows white noise residuals
 #this is bad though because of the principle of parsimony
+#Warning message:
+#In arima(T.TFR$TFR, order = c(13, 1, 15)) :
+  #possible convergence problem: optim gave code = 1
 
 #this is probably due to a seasonal component in the data. a sarima model 
 #will now be fit
@@ -110,7 +113,7 @@ pacf(na.omit(T.SdiffTFR$SD.TFR), lag.max = 40)
 
 #We will try seasonal ARIMA(0, 0, 0)(1, 1, 0)_12 first
 
-TFR.sarima1 <- arima(TFR$TFR,order=c(0,0,0),
+TFR.sarima1 <- arima(T.TFR$TFR,order=c(0,0,0),
                      season=list(order=c(1,1,0),period=12))
 acf(TFR.sarima1$resid, lag.max = 45)
 pacf(TFR.sarima1$resid, lag.max = 45)
@@ -118,20 +121,20 @@ pacf(TFR.sarima1$resid, lag.max = 45)
 #the pacf shows a significant lag at 1 and 13
 
 #try with regular differencing
-TFR.sarima2 <- arima(TFR$TFR,order=c(0,1,0),
+TFR.sarima2 <- arima(T.TFR$TFR,order=c(0,1,0),
                      season=list(order=c(1,1,0),period=12))
 acf(TFR.sarima2$resid, lag.max = 45)
 pacf(TFR.sarima2$resid, lag.max = 45)
 #this shows the last significant lag in the pacf at 5 so we will try that
 
-TFR.sarima3 <- arima(TFR$TFR,order=c(0,1,5),
+TFR.sarima3 <- arima(T.TFR$TFR,order=c(0,1,5),
                      season=list(order=c(1,1,0),period=12))
 acf(TFR.sarima3$resid, lag.max = 45)
 pacf(TFR.sarima3$resid, lag.max = 45)
-#there is a lag at 16 in pacf so we will try
+#there is a lag at 15 in pacf so we will try
 
 
-TFR.sarima4 <- arima(TFR$TFR,order=c(0,1,8),
+TFR.sarima4 <- arima(T.TFR$TFR,order=c(0,1,8),
                      season=list(order=c(1,1,0),period=12))
 acf(TFR.sarima4$resid, lag.max = 45)
 pacf(TFR.sarima4$resid, lag.max = 45)
@@ -139,47 +142,69 @@ pacf(TFR.sarima4$resid, lag.max = 45)
 #q value is still to high probably
 
 #will try it with a moving average component
-TFR.sarima5 <- arima(TFR$TFR,order=c(1,1,0),
+TFR.sarima5 <- arima(T.TFR$TFR,order=c(1,1,0),
                      season=list(order=c(1,1,0),period=12))
 acf(TFR.sarima5$resid, lag.max = 45)
 pacf(TFR.sarima5$resid, lag.max = 45)
 #the pacf has residuals up to 15
 
-TFR.sarima6 <- arima(TFR$TFR,order=c(0,1,15),
+TFR.sarima6 <- arima(T.TFR$TFR,order=c(0,1,15),
                      season=list(order=c(0,1,0),period=12))
 acf(TFR.sarima6$resid, lag.max = 45)
 pacf(TFR.sarima6$resid, lag.max = 45)
 #this has white noise residuals
 
-TFR.sarima7 <- arima(TFR$TFR,order=c(0,1,8),
+TFR.sarima7 <- arima(T.TFR$TFR,order=c(0,1,8),
                      season=list(order=c(0,1,1),period=12))
 acf(TFR.sarima7$resid, lag.max = 45)
 pacf(TFR.sarima7$resid, lag.max = 45)
 #this has white noise residuals
 
-TFR.sarima8 <- arima(TFR$TFR,order=c(0,1,1),
+TFR.sarima8 <- arima(T.TFR$TFR,order=c(0,1,3),
                      season=list(order=c(0,1,2),period=12))
 acf(TFR.sarima8$resid, lag.max = 45)
 pacf(TFR.sarima8$resid, lag.max = 45)
 #this is white noise residuals
 summary(TFR.sarima8)
 
-TFR.sarima9 <- arima(TFR$TFR,order=c(0,1,8),
+TFR.sarima9 <- arima(T.TFR$TFR,order=c(0,1,8),
                      season=list(order=c(2,1,0),period=12))
 acf(TFR.sarima9$resid, lag.max = 45)
 pacf(TFR.sarima9$resid, lag.max = 45)
-
+summary(TFR.sarima9)
 
 #i will now try fitting an arima for the log transformed TFR data
-T.logTFR <- T.TFR |> mutate(logTFR = TFR)
+T.logTFR <- T.TFR
+T.logTFR$TFR <- log(T.TFR$TFR)
 
 
 #i will create the acf and pacf plots for the differenced log data
 
-acf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+
+T.difflogTFR <- T.logTFR |> mutate(D.logTFR = difference(TFR, lag = 1))
+
+T.difflogTFR
+
+T.diffTFR|> autoplot(D.TFR)
+
+acf(na.omit(T.difflogTFR$D.logTFR), lag.max = 40)
 pacf(na.omit(T.diffTFR$D.TFR), lag.max = 40)
+#the last significant lag is at lag 13 like the untransformed one
 
+logTFR.arima1 <- arima(T.logTFR$TFR, order=c(13,1,0))
+acf(logTFR.arima1$resid, lag.max = 45)
+pacf(TFR.arima1$resid, lag.max = 45)
+#the last signifiact lag is at 15 like the untrasnfored one
+logTFR.arima2 <- arima(T.logTFR$TFR, order=c(13,1,15))
+acf(logTFR.arima2$resid, lag.max = 45)
+pacf(TFR.arima2$resid, lag.max = 45)
+#white noise residuals but gave the same errors as before
 
+logTFR.arima3 <- arima(T.logTFR$TFR, order=c(8,1,15))
+acf(logTFR.arima3$resid, lag.max = 45)
+pacf(logTFR.arima3$resid, lag.max = 45)
+summary(logTFR.arima3)
+#white noise residuals
 
 #i did tr
 
