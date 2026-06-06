@@ -181,6 +181,14 @@ acf(TFR.sarima9$resid, lag.max = 45)
 pacf(TFR.sarima9$resid, lag.max = 45)
 summary(TFR.sarima9)
 
+
+TFR.sarima10 <- arima(T.TFR$TFR,order=c(0,1,9),
+                        season=list(order=c(0,1,0),period=12))
+acf(TFR.sarima10$resid, lag.max = 45)
+pacf(TFR.sarima10$resid, lag.max = 45)
+#this has white noise residuals
+
+
 #i will now try fitting an arima for the log transformed TFR data
 T.logTFR <- T.TFR
 T.logTFR$TFR <- log(T.TFR$TFR)
@@ -228,6 +236,36 @@ logTFR.sarima1 <- arima(T.logTFR$TFR,order=c(0,1,0),
 acf(logTFR.sarima1$resid, lag.max = 45)
 pacf(logTFR.sarima1$resid, lag.max = 45)
 #these plots are the same as the untransformed ones
+
+TFR.logsarima2 <- arima(T.logTFR$TFR,order=c(0,1,5),
+                     season=list(order=c(1,1,0),period=12))
+acf(TFR.logsarima2$resid, lag.max = 45)
+pacf(TFR.logsarima2$resid, lag.max = 45)
+#this has a spike at lag 15
+
+TFR.logsarima3 <- arima(T.logTFR$TFR,order=c(0,1,8),
+                        season=list(order=c(1,1,0),period=12))
+acf(TFR.logsarima3$resid, lag.max = 45)
+pacf(TFR.logsarima3$resid, lag.max = 45)
+#white noise residuals
+
+TFR.logsarima4 <- arima(T.logTFR$TFR,order=c(0,1,15),
+                     season=list(order=c(0,1,0),period=12))
+acf(TFR.logsarima4$resid, lag.max = 45)
+pacf(TFR.logsarima4$resid, lag.max = 45)
+#this has white noise residuals
+
+TFR.logsarima5 <- arima(T.logTFR$TFR,order=c(0,1,9),
+                        season=list(order=c(0,1,0),period=12))
+acf(TFR.logsarima5$resid, lag.max = 45)
+pacf(TFR.logsarima5$resid, lag.max = 45)
+#this has white noise residuals
+
+TFR.logsarima6 <- arima(T.logTFR$TFR,order=c(0,1,8),
+                     season=list(order=c(0,1,1),period=12))
+acf(TFR.logsarima6$resid, lag.max = 45)
+pacf(TFR.logsarima6$resid, lag.max = 45)
+#this has white noise residuals
 
 
 #i will decide that the untransformed is better for simplicity. and then i will
