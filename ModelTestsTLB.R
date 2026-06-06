@@ -99,4 +99,23 @@ acf(TLB.sarima8$resid, lag.max = 45)
 pacf(TLB.sarima8$resid, lag.max = 45)
 #white noise residuals
 
+TLB.sarima9 <- arima(T.TLB$TLB,order=c(4,1,2),
+                     season=list(order=c(0,1,0),period=12))
 
+acf(TLB.sarima9$resid, lag.max = 45)
+pacf(TLB.sarima9$resid, lag.max = 45)
+#white noise residuals
+
+TLB.sarima10 <- arima(T.TLB$TLB,order=c(4,1,1),
+                     season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima10$resid, lag.max = 45)
+pacf(TLB.sarima10$resid, lag.max = 45)
+#white noise residuals
+
+TLB.sarima11 <- arima(T.TLB$TLB,order=c(5,1,0),
+                      season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima11$resid, lag.max = 45)
+pacf(TLB.sarima11$resid, lag.max = 45)
+#white noise residuals
