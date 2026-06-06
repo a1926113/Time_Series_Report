@@ -42,4 +42,61 @@ TLB.sarima1 <- arima(T.TLB$TLB,order=c(0,1,0),
 
 acf(TLB.sarima1$resid, lag.max = 45)
 pacf(TLB.sarima1$resid, lag.max = 45)
+#this shows the last signifiact lag at lag 10 for pacf we will try that. there 
+# is also a lag at lag 5
+
+TLB.sarima2 <- arima(T.TLB$TLB,order=c(0,1,10),
+                     season=list(order=c(1,1,0),period=12))
+
+acf(TLB.sarima2$resid, lag.max = 45)
+pacf(TLB.sarima2$resid, lag.max = 45)
+#this has white noise residuals
+
+#will try fitting it with d term as 5
+TLB.sarima3 <- arima(T.TLB$TLB,order=c(0,1,5),
+                     season=list(order=c(1,1,0),period=12))
+
+acf(TLB.sarima3$resid, lag.max = 45)
+pacf(TLB.sarima3$resid, lag.max = 45)
+#white noise residuals
+
+
+TLB.sarima4 <- arima(T.TLB$TLB,order=c(0,1,3),
+                     season=list(order=c(1,1,0),period=12))
+
+acf(TLB.sarima4$resid, lag.max = 45)
+pacf(TLB.sarima4$resid, lag.max = 45)
+summary(TLB.sarima4)
+#this also has white noise residuals
+
+TLB.sarima5 <- arima(T.TLB$TLB,order=c(0,1,3),
+                     season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima5$resid, lag.max = 45)
+pacf(TLB.sarima5$resid, lag.max = 45)
+summary(TLB.sarima5)
+#this also has white noise residuals
+
+
+TLB.sarima6 <- arima(T.TLB$TLB,order=c(0,1,5),
+                     season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima6$resid, lag.max = 45)
+pacf(TLB.sarima6$resid, lag.max = 45)
+#white noise residuals
+
+TLB.sarima7 <- arima(T.TLB$TLB,order=c(3,1,3),
+                     season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima7$resid, lag.max = 45)
+pacf(TLB.sarima7$resid, lag.max = 45)
+#white noise residuals
+
+TLB.sarima8 <- arima(T.TLB$TLB,order=c(3,1,4),
+                     season=list(order=c(0,1,0),period=12))
+
+acf(TLB.sarima8$resid, lag.max = 45)
+pacf(TLB.sarima8$resid, lag.max = 45)
+#white noise residuals
+
 
