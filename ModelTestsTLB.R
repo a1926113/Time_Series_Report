@@ -27,3 +27,19 @@ pacf(TLB.arima3$resid, lag.max = 45)
 #these are white noise
 
 
+#we will now try fitting some sarima models
+
+T.SdiffTLB <- T.TLB |> mutate(SD.TLB = difference(TLB, lag = 12))
+
+acf(na.omit(T.SdiffTLB$SD.TLB), lag.max = 40)
+pacf(na.omit(T.SdiffTLB$SD.TLB), lag.max = 40)
+#acf shows signifiance up to lag 5 and pacf shows signifiance up to lag 5
+
+#We will try seasonal ARIMA(0, 1, 0)(0, 1, 0)_12 first
+
+TLB.sarima1 <- arima(T.TLB$TLB,order=c(0,1,0),
+                     season=list(order=c(1,1,0),period=12))
+
+acf(TLB.sarima1$resid, lag.max = 45)
+pacf(TLB.sarima1$resid, lag.max = 45)
+
